@@ -1,0 +1,349 @@
+============================================================
+OPERATING SYSTEMS CHECKPOINT
+CPU SCHEDULING, PROCESS SYNCHRONIZATION,
+MEMORY MANAGEMENT, AND DISK SCHEDULING
+============================================================
+
+Student: Yassine Kalthoum
+Date: _17-06-2026
+
+------------------------------------------------------------
+PROJECT OVERVIEW
+------------------------------------------------------------
+
+This project simulates several important concepts used by
+modern operating systems.
+
+The objective is to understand how an operating system:
+
+1. Schedules processes on the CPU.
+2. Protects shared resources from race conditions.
+3. Manages memory using page replacement algorithms.
+4. Optimizes disk access through scheduling techniques.
+
+The project is divided into four independent parts:
+
+• Part 1: Process Scheduling
+• Part 2: Process Synchronization
+• Part 3: Memory Management
+• Part 4: Disk Scheduling
+
+All simulations were implemented using JavaScript and
+executed with Node.js.
+
+============================================================
+PART 1 : PROCESS SCHEDULING
+============================================================
+
+Objective:
+-----------
+
+The goal of process scheduling is to decide which process
+should use the CPU and for how long.
+
+Processes Used:
+---------------
+
+P1 -> Arrival Time = 0, Burst Time = 5
+P2 -> Arrival Time = 1, Burst Time = 3
+P3 -> Arrival Time = 2, Burst Time = 1
+
+Algorithms Implemented:
+-----------------------
+
+1. FCFS (First Come First Served)
+2. Round Robin (Quantum = 2)
+
+FCFS:
+-----
+
+FCFS executes processes according to their arrival order.
+
+Execution Order:
+
+P1 -> P2 -> P3
+
+Advantages:
+
+• Very simple to implement.
+• Low overhead.
+
+Disadvantages:
+
+• Short processes may wait a long time.
+• Poor response time for interactive systems.
+
+Round Robin:
+------------
+
+Round Robin gives each process a fixed amount of CPU time
+called a time quantum.
+
+Quantum Used:
+
+2 Time Units
+
+Advantages:
+
+• Fair CPU sharing.
+• Better responsiveness.
+• Commonly used in multitasking systems.
+
+Disadvantages:
+
+• More context switching.
+• Slightly higher overhead.
+
+Result:
+--------
+
+FCFS Average Waiting Time = 3.33
+
+Round Robin Average Waiting Time = 3.33
+
+Conclusion:
+
+Although both algorithms produced the same average waiting
+time in this example, Round Robin is considered more
+responsive because every process gets CPU access regularly.
+
+============================================================
+PART 2 : PROCESS SYNCHRONIZATION
+============================================================
+
+Objective:
+-----------
+
+When multiple processes access the same resource, data
+corruption may occur if synchronization is not used.
+
+Scenario:
+----------
+
+Two processes increment a shared variable called "counter".
+
+P1 increments counter 100 times.
+P2 increments counter 100 times.
+
+Problem:
+---------
+
+Without synchronization, both processes may read and write
+the same value simultaneously.
+
+This situation is called a Race Condition.
+
+Example:
+
+Counter = 5
+
+P1 reads 5
+P2 reads 5
+
+P1 increments to 6
+P2 increments to 6
+
+P1 writes 6
+P2 writes 6
+
+Final Counter = 6
+
+Expected Counter = 7
+
+One update is lost.
+
+Solution:
+----------
+
+A Mutex (Mutual Exclusion Lock) is used.
+
+The mutex ensures that only one process can enter the
+critical section at a time.
+
+Benefits:
+
+• Prevents race conditions.
+• Preserves data consistency.
+• Guarantees correct results.
+
+Final Result:
+
+Counter = 200
+
+Conclusion:
+
+Synchronization is essential whenever multiple processes
+share data.
+
+============================================================
+PART 3 : MEMORY MANAGEMENT
+============================================================
+
+Objective:
+-----------
+
+The goal is to manage limited memory efficiently using
+page replacement algorithms.
+
+Reference String:
+-----------------
+
+1, 2, 3, 2, 4, 1, 5
+
+Available Frames:
+-----------------
+
+3 Frames
+
+Algorithms Implemented:
+-----------------------
+
+1. FIFO (First In First Out)
+2. LRU (Least Recently Used)
+
+FIFO:
+-----
+
+FIFO removes the oldest page currently in memory.
+
+Advantages:
+
+• Easy to implement.
+• Low overhead.
+
+Disadvantages:
+
+• May remove frequently used pages.
+
+Result:
+
+FIFO Page Faults = 6
+
+LRU:
+----
+
+LRU removes the page that has not been used for the longest
+time.
+
+Advantages:
+
+• Better reflects actual usage patterns.
+• Usually produces fewer page faults.
+
+Disadvantages:
+
+• More complex implementation.
+
+Result:
+
+LRU Page Faults = 6
+
+Conclusion:
+------------
+
+For this specific reference string:
+
+FIFO = 6 Page Faults
+LRU  = 6 Page Faults
+
+Both algorithms performed equally.
+
+However, in real systems LRU generally performs better.
+
+============================================================
+PART 4 : DISK SCHEDULING
+============================================================
+
+Objective:
+-----------
+
+Disk scheduling determines the order in which disk requests
+are served to reduce head movement and improve performance.
+
+Initial Head Position:
+----------------------
+
+53
+
+Pending Requests:
+-----------------
+
+98, 183, 37, 122, 14, 124, 65, 67
+
+Algorithms Implemented:
+-----------------------
+
+1. FCFS
+2. SSTF
+
+FCFS:
+-----
+
+FCFS serves requests in the order they arrive.
+
+Advantages:
+
+• Simple implementation.
+• Fair request ordering.
+
+Disadvantages:
+
+• Large head movement.
+• Lower efficiency.
+
+Result:
+
+Total Head Movement = 640 Tracks
+
+SSTF:
+-----
+
+Shortest Seek Time First always selects the nearest request.
+
+Advantages:
+
+• Reduces seek time.
+• Improves performance.
+
+Disadvantages:
+
+• Some requests may wait longer.
+
+Result:
+
+Total Head Movement = 236 Tracks
+
+Conclusion:
+
+SSTF significantly reduces disk head movement and therefore
+provides better efficiency than FCFS.
+
+============================================================
+FINAL CONCLUSION
+============================================================
+
+This project demonstrated four fundamental operating
+system concepts.
+
+1. CPU Scheduling
+   - FCFS and Round Robin were simulated.
+   - Round Robin showed better responsiveness.
+
+2. Process Synchronization
+   - Mutex locks prevented race conditions.
+
+3. Memory Management
+   - FIFO and LRU page replacement were compared.
+   - Both generated 6 page faults in this example.
+
+4. Disk Scheduling
+   - FCFS and SSTF were simulated.
+   - SSTF reduced head movement from 640 to 236 tracks.
+
+Overall, the project provided practical experience with
+core operating system mechanisms and showed how different
+algorithms affect system performance and efficiency.
+
+============================================================
+END OF PRESENTATION
+============================================================
